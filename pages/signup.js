@@ -11,7 +11,7 @@ const ErrorMessage = styled.div`
 
 const Signup = () => {
   const [id, onChangeId] = useInput('');
-  const [nickname, onChangeNickname] = useInput('');
+  const [nickname, onChangeNick] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPasswordError] = useState(false);
@@ -31,7 +31,14 @@ const Signup = () => {
     [password]
   );
 
-  const onSubmit = useCallback(() => {}, []);
+  const onSubmit = useCallback(() => {
+    if (password !== passwordCheck) {
+      return setPasswordError(true);
+    }
+    if (!term) {
+      return setTermError(true);
+    }
+  }, [password, passwordCheck, term]);
 
   return (
     <>
@@ -49,9 +56,9 @@ const Signup = () => {
           <div>
             <label htmlFor="user-id">닉네임</label>
             <br />
-            <Input
+            <Input 
               name="user-nick"
-              value={nick}
+              value={nickname}
               required
               onChange={onChangeNick}
             />
@@ -89,7 +96,11 @@ const Signup = () => {
               <ErrorMessage>약관에 동의하셔야 합니다.</ErrorMessage>
             )}
           </div>
-          
+          <div style={{ marginTop: 10 }}>
+            <Button type="primary" htmlType="submit">
+              가입하기
+            </Button>
+          </div>
         </Form>
       </AppLayout>
     </>
